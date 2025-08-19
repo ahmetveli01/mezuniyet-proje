@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Hayvan Bilgi Oyunu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .game-area {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .question-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .option-btn:hover {
+            border-color: #667eea;
+            background: #f0f2ff;
+            transform: translateY(-2px);
+        }
+
+        .option-btn.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option-btn.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .option-btn.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .next-btn.show {
+            display: inline-block;
+        }
+
+        .game-over {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .game-over.show {
+            display: block;
+        }
+
+        .final-score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" onclick="window.location.href='/'">
+                ← Ana Sayfa
+            </button>
+            <h1>🎮 Hayvan Bilgi Oyunu</h1>
+            <p>Hayvanlar hakkında ne kadar bilgili olduğunu test et!</p>
+        </div>
+
+        <div class="content">
+
+            <div class="game-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="score">0</div>
+                    <div class="stat-label">Puan</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="questionNumber">1</div>
+                    <div class="stat-label">Soru</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalQuestions">1</div>
+                    <div class="stat-label">Toplam</div>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="game-area" id="gameArea">
+                <div class="question-card">
+                    <div class="question-text" id="questionText">Soru yükleniyor...</div>
+                    <div class="options-grid" id="optionsGrid">
+                        <!-- Seçenekler buraya gelecek -->
+                    </div>
+                    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+                        Sonraki Soru →
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-over" id="gameOver">
+                <h2>🎉 Oyun Bitti!</h2>
+                <div class="final-score" id="finalScore">Puan: 0/10</div>
+                <p>Harika bir iş çıkardın! Hayvanlar hakkında çok şey biliyorsun.</p>
+                <button class="restart-btn" onclick="restartGame()">
+                    🎮 Tekrar Oyna
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Oyun verileri
+        const gameData = {
+            score: 0,
+            currentQuestion: 0,
+            totalQuestions: 1, // Sadece 1 soru ile başla
+            questions: [
+                {
+                    question: "Hangi hayvan dünyanın en hızlı kara hayvanıdır?",
+                    options: ["Aslan", "Çita", "Kartal", "Kurt"],
+                    correct: 1
+                }
+                // Öğrenci buraya kendi sorularını ekleyebilir!
+                // Örnek format:
+                // {
+                //     question: "Soru metni buraya",
+                //     options: ["Seçenek 1", "Seçenek 2", "Seçenek 3", "Seçenek 4"],
+                //     correct: 0 // Doğru seçeneğin index'i (0-3 arası)
+                // }
+            ]
+        };
+
+        // DOM elementleri
+        const scoreElement = document.getElementById('score');
+        const questionNumberElement = document.getElementById('questionNumber');
+        const totalQuestionsElement = document.getElementById('totalQuestions');
+        const questionTextElement = document.getElementById('questionText');
+        const optionsGridElement = document.getElementById('optionsGrid');
+        const nextBtnElement = document.getElementById('nextBtn');
+        const gameAreaElement = document.getElementById('gameArea');
+        const gameOverElement = document.getElementById('gameOver');
+        const finalScoreElement = document.getElementById('finalScore');
+        const progressFillElement = document.getElementById('progressFill');
+
+        // Oyunu başlat
+        function startGame() {
+            gameData.score = 0;
+            gameData.currentQuestion = 0;
+            updateStats();
+            showQuestion();
+        }
+
+        // Soruyu göster
+        function showQuestion() {
+            const question = gameData.questions[gameData.currentQuestion];
+            questionTextElement.textContent = question.question;
+            
+            optionsGridElement.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option;
+                button.onclick = () => selectOption(index);
+                optionsGridElement.appendChild(button);
+            });
+            
+            nextBtnElement.classList.remove('show');
+            updateProgress();
+        }
+
+        // Seçenek seç
+        function selectOption(selectedIndex) {
+            const question = gameData.questions[gameData.currentQuestion];
+            const buttons = optionsGridElement.querySelectorAll('.option-btn');
+            
+            // Tüm butonları devre dışı bırak
+            buttons.forEach(btn => btn.classList.add('disabled'));
+            
+            // Doğru ve yanlış seçenekleri işaretle
+            buttons.forEach((btn, index) => {
+                if (index === question.correct) {
+                    btn.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            // Puanı güncelle
+            if (selectedIndex === question.correct) {
+                gameData.score++;
+                updateStats();
+            }
+            
+            // Sonraki soru butonunu göster
+            nextBtnElement.classList.add('show');
+        }
+
+        // Sonraki soru
+        function nextQuestion() {
+            gameData.currentQuestion++;
+            
+            if (gameData.currentQuestion >= gameData.totalQuestions) {
+                endGame();
+            } else {
+                showQuestion();
+            }
+        }
+
+        // Oyunu bitir
+        function endGame() {
+            gameAreaElement.style.display = 'none';
+            gameOverElement.classList.add('show');
+            finalScoreElement.textContent = `Puan: ${gameData.score}/${gameData.totalQuestions}`;
+        }
+
+        // Oyunu yeniden başlat
+        function restartGame() {
+            gameAreaElement.style.display = 'block';
+            gameOverElement.classList.remove('show');
+            startGame();
+        }
+
+        // İstatistikleri güncelle
+        function updateStats() {
+            scoreElement.textContent = gameData.score;
+            questionNumberElement.textContent = gameData.currentQuestion + 1;
+            totalQuestionsElement.textContent = gameData.totalQuestions;
+        }
+
+        // İlerleme çubuğunu güncelle
+        function updateProgress() {
+            const progress = ((gameData.currentQuestion + 1) / gameData.totalQuestions) * 100;
+            progressFillElement.style.width = progress + '%';
+        }
+
+        // Oyunu başlat
+        startGame();
+    </script>
+</body>
+</html>
