@@ -280,7 +280,7 @@
                     <div class="stat-label">Soru</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="totalQuestions">1</div>
+                    <div class="stat-number" id="totalQuestions">5</div>
                     <div class="stat-label">Toplam</div>
                 </div>
             </div>
@@ -317,22 +317,35 @@
         const gameData = {
             score: 0,
             currentQuestion: 0,
-            totalQuestions: 1, // Sadece 1 soru ile başla
+            totalQuestions: 5, // Sadece 1 soru ile başla
             questions: [
-                {
-                    question: "Hangi hayvan dünyanın en hızlı kara hayvanıdır?",
-                    options: ["Aslan", "Çita", "Kartal", "Kurt"],
-                    correct: 1
-                }
-                // Öğrenci buraya kendi sorularını ekleyebilir!
-                // Örnek format:
-                // {
-                //     question: "Soru metni buraya",
-                //     options: ["Seçenek 1", "Seçenek 2", "Seçenek 3", "Seçenek 4"],
-                //     correct: 0 // Doğru seçeneğin index'i (0-3 arası)
-                // }
-            ]
-        };
+        {
+            question: "Hangi hayvan dünyanın en hızlı kara hayvanıdır?",
+            options: ["Aslan", "Çita", "Kartal", "Kurt"],
+            correct: 1 // Çita (0 tabanlı)
+        },
+        {
+            question: "Hangi hayvan vücudunu tamamen yenileyebilir?",
+            options: ["Kartal", "Hipopotam", "Aksolotl", "Tilki"],
+            correct: 2 // Aksolotl
+        },
+        {
+            question: "Hangisi memeli bir hayvan olmasına rağmen yumurtlar?",
+            options: ["Ornitorenk", "Fare", "Kuğu", "Panda"],
+            correct: 0 // Ornitorenk
+        },
+        {
+            question: "Hangi hayvan, gününün çoğunluğunu uyuyarak geçirir?",
+            options: ["Lemur", "Boz Ayı", "Panda", "Koala"],
+            correct: 3 // Koala
+        },
+        {
+            question: "Eski Türklerin ilk evcilleştirdiği hayvanlardan biri nedir?",
+            options: ["Goril", "At", "Ahtapot", "Muhabbet Kuşu"],
+            correct: 1 // At
+        }
+    ]
+};
 
         // DOM elementleri
         const scoreElement = document.getElementById('score');
@@ -442,3 +455,4 @@
     </script>
 </body>
 </html>
+
