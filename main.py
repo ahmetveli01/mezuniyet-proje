@@ -26,10 +26,11 @@ try:
         def __init__(self, *args, **kwargs):
             kwargs.pop('groups', None)
             super().__init__(*args, **kwargs)
+
+    custom_objects = {'DepthwiseConv2D': CustomDepthwiseConv2D}
     
-    model = load_model(r'D:\KODLAND\OgrenciProjeleri\KodlandAhmetVeli\keras_model.h5', 
-                      custom_objects={'DepthwiseConv2D': CustomDepthwiseConv2D}, 
-                      compile=False)
+    model = load_model(r"C:\Users\Ahmet Veli\OneDrive\Desktop\KodlandMezuniyetProje\proje\KodlandAhmetVeli\keras_model.h5",  custom_objects=custom_objects, compile=False)
+
     MODEL_AVAILABLE = True
     print("✅ Model başarıyla yüklendi")
         
@@ -40,7 +41,7 @@ except Exception as e:
 
 # Load labels
 try:
-    with open(r"D:\KODLAND\OgrenciProjeleri\KodlandAhmetVeli\labels.txt", "r", encoding='utf-8') as f:
+    with open(r"C:\Users\Ahmet Veli\OneDrive\Desktop\KodlandMezuniyetProje\proje\KodlandAhmetVeli\labels.txt", "r", encoding='utf-8') as f:
         # Sayıları kaldır ve sadece hayvan isimlerini al
         class_names = []
         for line in f.readlines():
@@ -548,4 +549,6 @@ if __name__ == "__main__":
         print("⚠️ Demo modunda çalışacak")
     
     app.run(debug=True, port=8000, host='0.0.0.0')
+
+
 
